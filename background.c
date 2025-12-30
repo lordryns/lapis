@@ -1,3 +1,4 @@
+#include "gtk/gtkcssprovider.h"
 #include <gtk/gtk.h>
 #include <gtk-layer-shell/gtk-layer-shell.h>
 #include <stdio.h>
@@ -25,17 +26,30 @@ void show_background_manager (GtkApplication *app) {
     gtk_layer_set_anchor(GTK_WINDOW(window), GTK_LAYER_SHELL_EDGE_BOTTOM, TRUE);
     gtk_layer_set_anchor(GTK_WINDOW(window), GTK_LAYER_SHELL_EDGE_LEFT, TRUE);
     gtk_layer_set_anchor(GTK_WINDOW(window), GTK_LAYER_SHELL_EDGE_RIGHT, TRUE);
+    gtk_layer_set_margin(GTK_WINDOW(window), GTK_LAYER_SHELL_EDGE_TOP, 0);
+    gtk_layer_set_margin(GTK_WINDOW(window), GTK_LAYER_SHELL_EDGE_BOTTOM, 0);
+    gtk_layer_set_margin(GTK_WINDOW(window), GTK_LAYER_SHELL_EDGE_LEFT, 0);
+    gtk_layer_set_margin(GTK_WINDOW(window), GTK_LAYER_SHELL_EDGE_RIGHT, 0);    
 
-    GtkWidget *container = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_hexpand(container, TRUE);
-    gtk_widget_set_vexpand(container, TRUE);
+    GtkWidget *main_overlay = gtk_overlay_new();
+        
+    GtkWidget *background_picture = gtk_picture_new_for_filename("./wallpapers/neon-night.jpg");
+    gtk_picture_set_content_fit(GTK_PICTURE(background_picture),
+                            GTK_CONTENT_FIT_FILL);
+
+    gtk_widget_set_hexpand(background_picture, TRUE);
+    gtk_widget_set_vexpand(background_picture, TRUE);
+    gtk_widget_set_halign(background_picture, GTK_ALIGN_FILL);
+    gtk_widget_set_valign(background_picture, GTK_ALIGN_FILL);
+
+    gtk_overlay_add_overlay(GTK_OVERLAY (main_overlay), background_picture);
 
     GtkWidget *label = gtk_label_new("Hello World!");
     gtk_widget_set_halign(label, TRUE);
     gtk_widget_set_valign(label, TRUE);
-    gtk_box_append(GTK_BOX (container), label);
+    gtk_overlay_add_overlay(GTK_OVERLAY (main_overlay), label);
 
-    gtk_window_set_child(GTK_WINDOW (window), container);
+    gtk_window_set_child(GTK_WINDOW (window), main_overlay);
     gtk_window_present(GTK_WINDOW (window));
 }
 
