@@ -35,6 +35,9 @@ void show_app_launcher () {
     window = gtk_window_new();
     gtk_window_set_default_size(GTK_WINDOW (window), 700, 500);
     gtk_layer_init_for_window(GTK_WINDOW (window));
+    
+    gtk_layer_set_keyboard_mode(GTK_WINDOW (window), GTK_LAYER_SHELL_KEYBOARD_MODE_ON_DEMAND);
+    
     gtk_layer_set_layer(GTK_WINDOW (window), GTK_LAYER_SHELL_LAYER_TOP);
     gtk_layer_set_anchor(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_BOTTOM, TRUE);
     gtk_layer_set_anchor(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, TRUE);
@@ -47,14 +50,25 @@ void show_app_launcher () {
     GtkWidget *app_scrollable = gtk_scrolled_window_new(); 
     gtk_box_append(GTK_BOX (container), app_scrollable);
 
-    GtkWidget *app_list = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    GtkWidget *app_list = gtk_list_box_new();
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW (app_scrollable), app_list);
+    gtk_widget_set_hexpand(app_list, TRUE);
+    
     apps = g_app_info_get_all(); 
     for (GList *l = apps; l != NULL; l = l->next) {
+        GtkWidget *app_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
         GAppInfo *app = l->data; 
-        GtkWidget *app_btn = gtk_button_new_with_label(g_app_info_get_name(app));
+        GtkWidget *app_btn = gtk_button_new();
+        GtkWidget *icon = gtk_image_new_from_gicon(g_app_info_get_icon(app));
+
+        gtk_box_append(GTK_BOX (app_box), icon); 
+
+        GtkWidget *label = gtk_label_new(g_app_info_get_name(app)); 
+        gtk_box_append(GTK_BOX (app_box), label); 
+        
+        gtk_button_set_child(GTK_BUTTON (app_btn), app_box);
         gtk_widget_set_hexpand(app_btn, TRUE);
-        gtk_box_append(GTK_BOX (app_list), app_btn);
+        gtk_list_box_append(GTK_LIST_BOX (app_list), app_btn);
         const char *exec_name = g_app_info_get_executable(app);
         g_signal_connect(app_btn, "clicked", G_CALLBACK (app_button_clicked), (gpointer) exec_name);
         // g_print("app = %s\npath = %s\n", g_app_info_get_name(app), g_app_info_get_executable(app));
