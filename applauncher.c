@@ -1,16 +1,23 @@
-#include "gtk/gtkcssprovider.h"
 #include <gtk/gtk.h>
 #include <gtk-layer-shell/gtk-layer-shell.h>
 #include <stdio.h>
 
 
-static GtkWidget *window = NULL; 
+void app_button_clicked (GtkButton *button, gpointer user_data) {
+    const char *executable = (const char *)user_data; 
+    g_print("running: %s\n", executable);
+    g_spawn_command_line_async(executable, NULL);
+}
 
+
+static GtkWidget *window = NULL; 
+GList *apps;
 void show_app_launcher () {
     if (window != NULL) 
     {
         gtk_window_destroy(GTK_WINDOW (window));
         window = NULL;
+        g_list_free_full(apps, g_object_unref);
         return;
     } 
 
@@ -42,15 +49,16 @@ void show_app_launcher () {
 
     GtkWidget *app_list = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW (app_scrollable), app_list);
-    GList *apps = g_app_info_get_all(); 
+    apps = g_app_info_get_all(); 
     for (GList *l = apps; l != NULL; l = l->next) {
         GAppInfo *app = l->data; 
         GtkWidget *app_btn = gtk_button_new_with_label(g_app_info_get_name(app));
         gtk_widget_set_hexpand(app_btn, TRUE);
         gtk_box_append(GTK_BOX (app_list), app_btn);
+        const char *exec_name = g_app_info_get_executable(app);
+        g_signal_connect(app_btn, "clicked", G_CALLBACK (app_button_clicked), (gpointer) exec_name);
         // g_print("app = %s\npath = %s\n", g_app_info_get_name(app), g_app_info_get_executable(app));
     }
-    g_list_free_full(apps, g_object_unref);
 
     GtkWidget *info_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
     gtk_box_append(GTK_BOX (container), info_box); 
