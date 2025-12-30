@@ -1,4 +1,3 @@
-#include "gtk/gtkcssprovider.h"
 #include <gtk/gtk.h>
 #include <gtk-layer-shell/gtk-layer-shell.h>
 #include <stdio.h>
@@ -43,11 +42,6 @@ void show_background_manager (GtkApplication *app) {
     gtk_widget_set_valign(background_picture, GTK_ALIGN_FILL);
 
     gtk_overlay_add_overlay(GTK_OVERLAY (main_overlay), background_picture);
-
-    GtkWidget *label = gtk_label_new("Hello World!");
-    gtk_widget_set_halign(label, TRUE);
-    gtk_widget_set_valign(label, TRUE);
-    gtk_overlay_add_overlay(GTK_OVERLAY (main_overlay), label);
 
     gtk_window_set_child(GTK_WINDOW (window), main_overlay);
     gtk_window_present(GTK_WINDOW (window));
