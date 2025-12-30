@@ -2,7 +2,7 @@
 #include <gtk-layer-shell/gtk-layer-shell.h>
 #include <stdio.h>
 #include "event.h"
-#include "glib.h"
+#include "applauncher.h"
 
 static gboolean update_battery(GtkLabel *label) {
     int percent = read_battery();
@@ -39,8 +39,8 @@ void show_dock_window (GtkApplication *app) {
     gtk_widget_set_hexpand(container, TRUE);
 
 
-
     GtkWidget *app_launcher_btn = gtk_button_new_from_icon_name("open-menu-symbolic");
+    g_signal_connect(app_launcher_btn, "clicked", G_CALLBACK (show_app_launcher), NULL);
     gtk_box_append(GTK_BOX (container), app_launcher_btn);
 
     GtkWidget *right_container = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
