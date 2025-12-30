@@ -35,13 +35,30 @@ void show_app_launcher () {
     gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, 10);
     gtk_widget_set_name(window, "launcher");
 
+    GtkWidget *container = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+
+    GtkWidget *app_scrollable = gtk_scrolled_window_new(); 
+    gtk_box_append(GTK_BOX (container), app_scrollable);
+
+    GtkWidget *app_list = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW (app_scrollable), app_list);
     GList *apps = g_app_info_get_all(); 
     for (GList *l = apps; l != NULL; l = l->next) {
         GAppInfo *app = l->data; 
+        GtkWidget *app_btn = gtk_button_new_with_label(g_app_info_get_name(app));
+        gtk_widget_set_hexpand(app_btn, TRUE);
+        gtk_box_append(GTK_BOX (app_list), app_btn);
         // g_print("app = %s\npath = %s\n", g_app_info_get_name(app), g_app_info_get_executable(app));
     }
     g_list_free_full(apps, g_object_unref);
 
+    GtkWidget *info_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_box_append(GTK_BOX (container), info_box); 
+
+    GtkWidget *info_label = gtk_label_new("Good software starts with less");
+    gtk_box_append(GTK_BOX (info_box), info_label);
+
+    gtk_window_set_child(GTK_WINDOW (window), container);
     gtk_window_present(GTK_WINDOW (window));
 }
 
