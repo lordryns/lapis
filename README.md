@@ -12,7 +12,7 @@ Lapis relies on a few dependencies to be able to run
 - a window manager
 
 > [!NOTE]
-> Lapis has only been tested on Hyprland and so behaviour might not be optimal on your window manager of choice 
+> Lapis has only been tested on Hyprland and Sway and so behaviour might not be optimal on your window manager of choice 
 
 
 
