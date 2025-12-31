@@ -10,6 +10,14 @@ void app_button_clicked (GtkButton *button, gpointer user_data) {
 }
 
 
+
+static void
+on_row_activated(GtkListBox *box, GtkListBoxRow *row, gpointer user_data)
+{
+    GtkWidget *button = gtk_list_box_row_get_child(row);
+    gtk_widget_activate(button);
+}
+
 static GtkWidget *window = NULL; 
 GList *apps;
 void show_app_launcher () {
@@ -23,11 +31,49 @@ void show_app_launcher () {
 
     GtkCssProvider *provider = gtk_css_provider_new();
     gtk_css_provider_load_from_string(provider, "#launcher {"
-                                      "  border-radius: 15px;"
-                                      "  padding: 20px;"
-                                      "  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);"
-                                      "  border: 1px solid rgba(0,0,0,0.1);"                                  
-                                      "}");
+                            "  border-radius: 15px;"
+                            "  padding: 20px;"
+                            "  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);"
+                            "  border: 1px solid rgba(0,0,0,0.1);"                                  
+                            "}"
+ 
+"#app-list { "
+"background: transparent; "
+"border-radius: 14px; "
+"padding: 6px; "
+"} "
+"#app-list button { "
+"all: unset; "
+"padding: 10px 12px; "
+"border-radius: 10px; "
+"background: rgba(255,255,255,0.06); "
+"transition: background 120ms ease, transform 120ms ease; "
+"min-height: 38px; "
+"color: inherit; "
+"} "
+"#app-list button:hover { "
+"background: rgba(255,255,255,0.12); "
+"} "
+"#app-list button:active { "
+"background: rgba(255,255,255,0.18); "
+"transform: scale(0.99); "
+"} "
+"#app-list button:focus-visible { "
+"outline: 2px solid rgba(120,160,255,0.8); "
+"outline-offset: 2px; "
+"} "
+"#app-list row:selected button { "
+"background: rgba(120,160,255,0.22); "
+"} "
+"#app-list image { "
+"margin-right: 8px; "
+"} "
+"#app-list label { "
+"font-size: 14px; "
+"} "
+
+);
+
 
     GdkDisplay *display = gdk_display_get_default(); 
     gtk_style_context_add_provider_for_display(display, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
@@ -51,8 +97,11 @@ void show_app_launcher () {
     gtk_box_append(GTK_BOX (container), app_scrollable);
 
     GtkWidget *app_list = gtk_list_box_new();
+    gtk_widget_set_name(app_list, "app-list");
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW (app_scrollable), app_list);
     gtk_widget_set_hexpand(app_list, TRUE);
+    g_signal_connect(app_list, "row-activated",
+                 G_CALLBACK(on_row_activated), NULL);
     
     apps = g_app_info_get_all(); 
     for (GList *l = apps; l != NULL; l = l->next) {
