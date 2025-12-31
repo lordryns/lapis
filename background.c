@@ -30,11 +30,22 @@ void show_background_manager (GtkApplication *app) {
     gtk_layer_set_margin(GTK_WINDOW(window), GTK_LAYER_SHELL_EDGE_LEFT, 0);
     gtk_layer_set_margin(GTK_WINDOW(window), GTK_LAYER_SHELL_EDGE_RIGHT, 0);    
 
+    gtk_layer_set_exclusive_zone(GTK_WINDOW(window), 0);
+
+    gtk_layer_set_keyboard_mode(GTK_WINDOW(window),
+        GTK_LAYER_SHELL_KEYBOARD_MODE_NONE);
+    gtk_widget_set_focusable(window, FALSE);
+
     GtkWidget *main_overlay = gtk_overlay_new();
-        
+
+    gtk_widget_set_hexpand(main_overlay, TRUE);
+    gtk_widget_set_vexpand(main_overlay, TRUE);
+    gtk_widget_set_halign(main_overlay, GTK_ALIGN_FILL);
+    gtk_widget_set_valign(main_overlay, GTK_ALIGN_FILL);
+            
     GtkWidget *background_picture = gtk_picture_new_for_filename("./wallpapers/neon-night.jpg");
     gtk_picture_set_content_fit(GTK_PICTURE(background_picture),
-                            GTK_CONTENT_FIT_FILL);
+                            GTK_CONTENT_FIT_COVER);
 
     gtk_widget_set_hexpand(background_picture, TRUE);
     gtk_widget_set_vexpand(background_picture, TRUE);
