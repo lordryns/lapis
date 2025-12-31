@@ -10,3 +10,11 @@ int read_battery () {
 
     return percent;
 }
+
+
+void read_time (char *r_time) {
+    FILE *f = popen("date '+%I:%M'", "r");
+    fgets(r_time, 20, f);
+
+    pclose(f);
+}

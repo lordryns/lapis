@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "event.h"
 #include "applauncher.h"
+#include "glib.h"
+#include "gtk/gtkcssprovider.h"
 
 static gboolean update_battery(GtkLabel *label) {
     int percent = read_battery();
@@ -14,8 +16,16 @@ static gboolean update_battery(GtkLabel *label) {
     return TRUE;
 }
 
+static gboolean update_time(GtkLabel *label) {
+   char res[20]; 
+
+    read_time(res);
+    gtk_label_set_text(label, res);
+}
+
 void show_dock_window (GtkApplication *app) {
     GtkCssProvider *provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_string(provider, "#time {padding-top: 18px;  }");
 
     GdkDisplay *display = gdk_display_get_default(); 
     gtk_style_context_add_provider_for_display(display, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
@@ -48,6 +58,15 @@ void show_dock_window (GtkApplication *app) {
     gtk_widget_set_halign(right_container, GTK_ALIGN_END);
     gtk_box_append(GTK_BOX (container), right_container);
 
+
+    char c_time[20]; 
+    read_time(c_time);
+    GtkWidget *time_label = gtk_label_new(c_time);
+    gtk_widget_set_name(time_label, "time");
+
+    gtk_box_append(GTK_BOX (right_container), time_label);
+    g_timeout_add_seconds(10, (GSourceFunc)update_time, time_label);
+    
 
     GtkWidget *battery_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_box_append(GTK_BOX (right_container), battery_box);
