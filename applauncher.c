@@ -1,12 +1,13 @@
 #include <gtk/gtk.h>
 #include <gtk-layer-shell/gtk-layer-shell.h>
 #include <stdio.h>
-
+#include "applauncher.h"
 
 void app_button_clicked (GtkButton *button, gpointer user_data) {
     const char *executable = (const char *)user_data; 
     g_print("running: %s\n", executable);
     g_spawn_command_line_async(executable, NULL);
+    show_app_launcher();
 }
 
 
