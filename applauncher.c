@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "applauncher.h"
 
+
 void app_button_clicked (GtkButton *button, gpointer user_data) {
     const char *executable = (const char *)user_data; 
     g_print("running: %s\n", executable);
@@ -11,12 +12,34 @@ void app_button_clicked (GtkButton *button, gpointer user_data) {
 }
 
 
-
 static void
 on_row_activated(GtkListBox *box, GtkListBoxRow *row, gpointer user_data)
 {
     GtkWidget *button = gtk_list_box_row_get_child(row);
     gtk_widget_activate(button);
+}
+
+static gboolean on_keyboard_event(GtkEventControllerKey *ctrl,
+                                  guint keyval,
+                                  guint keycode,
+                                  GdkModifierType state,
+                                  gpointer user_data)
+{
+    GtkWidget *app_list = GTK_WIDGET(user_data); 
+
+    if (keyval == GDK_KEY_Escape) {
+        show_app_launcher();
+        return TRUE; 
+    }
+    else if (keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter) {
+        GtkListBoxRow *selected_row = gtk_list_box_get_selected_row(GTK_LIST_BOX(app_list));
+        if (selected_row) {
+            on_row_activated(GTK_LIST_BOX(app_list), selected_row, NULL);
+        }
+        return TRUE; 
+    }
+
+    return FALSE;
 }
 
 static GtkWidget *window = NULL; 
@@ -131,7 +154,10 @@ void show_app_launcher () {
     gtk_box_append(GTK_BOX (info_box), info_label);
 
     gtk_window_set_child(GTK_WINDOW (window), container);
+
+    GtkEventController *keyboard = gtk_event_controller_key_new(); 
+    g_signal_connect(keyboard, "key-pressed", G_CALLBACK (on_keyboard_event), app_list);
+    gtk_widget_add_controller(window, keyboard);
+
     gtk_window_present(GTK_WINDOW (window));
 }
-
-
