@@ -95,7 +95,11 @@ void show_app_launcher () {
 "#app-list label { "
 "font-size: 14px; "
 "} "
-
+"#default-button {"
+"min-width: 100px;"
+"min-height: 100px;"
+"-gtk-icon-size: 60px;"
+"}"
 );
 
 
@@ -147,11 +151,26 @@ void show_app_launcher () {
         // g_print("app = %s\npath = %s\n", g_app_info_get_name(app), g_app_info_get_executable(app));
     }
 
-    GtkWidget *info_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-    gtk_box_append(GTK_BOX (container), info_box); 
+    GtkWidget *defaults_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_box_append(GTK_BOX (container), defaults_box); 
 
-    GtkWidget *info_label = gtk_label_new("Good software starts with less");
-    gtk_box_append(GTK_BOX (info_box), info_label);
+    GtkWidget *defaults_row_one = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+    gtk_box_append(GTK_BOX (defaults_box), defaults_row_one);
+
+    GtkWidget *settings_button = gtk_button_new_from_icon_name("preferences-system-symbolic");
+    gtk_widget_set_name(settings_button, "default-button");
+    gtk_box_append(GTK_BOX (defaults_row_one), settings_button);
+
+
+    GtkWidget *browser_button = gtk_button_new_from_icon_name("web-browser-symbolic");
+    gtk_widget_set_name(browser_button, "default-button");
+    gtk_box_append(GTK_BOX (defaults_row_one), browser_button);
+
+    GtkWidget *terminal_button = gtk_button_new_from_icon_name("utilities-terminal-symbolic");
+    gtk_widget_set_name(terminal_button, "default-button");
+    gtk_box_append(GTK_BOX (defaults_row_one), terminal_button);
+
+
 
     gtk_window_set_child(GTK_WINDOW (window), container);
 
