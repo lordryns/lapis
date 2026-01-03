@@ -2,7 +2,12 @@
 #include <gtk-layer-shell/gtk-layer-shell.h>
 #include <stdio.h>
 #include "applauncher.h"
+#include "settings.h"
 
+void on_settings_button_clicked (GtkButton *button) {
+    show_settings_app(); 
+    show_app_launcher();
+}
 
 void app_button_clicked (GtkButton *button, gpointer user_data) {
     const char *executable = (const char *)user_data; 
@@ -159,6 +164,7 @@ void show_app_launcher () {
 
     GtkWidget *settings_button = gtk_button_new_from_icon_name("preferences-system-symbolic");
     gtk_widget_set_name(settings_button, "default-button");
+    g_signal_connect(settings_button, "clicked", G_CALLBACK (on_settings_button_clicked), NULL);
     gtk_box_append(GTK_BOX (defaults_row_one), settings_button);
 
 
