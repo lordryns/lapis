@@ -1,6 +1,12 @@
 # lapis
 A lightweight shell for Wayland
 
+### Current features 
+
+- wallpaper 
+- bottom dock (taskbar)
+- settings app (newest addition)
+
 
 ### Dependencies 
 
