@@ -43,7 +43,7 @@ void show_background_manager (GtkApplication *app) {
     gtk_widget_set_halign(main_overlay, GTK_ALIGN_FILL);
     gtk_widget_set_valign(main_overlay, GTK_ALIGN_FILL);
             
-    GtkWidget *background_picture = gtk_picture_new_for_filename("./wallpapers/surfboard-sunset.jpg");
+    GtkWidget *background_picture = gtk_picture_new_for_filename("./wallpapers/2.jpg");
     gtk_picture_set_content_fit(GTK_PICTURE(background_picture),
                             GTK_CONTENT_FIT_COVER);
 
