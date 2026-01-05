@@ -59,54 +59,7 @@ void show_app_launcher () {
     } 
 
     GtkCssProvider *provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_string(provider, "#launcher {"
-                            "  border-radius: 15px;"
-                            "  padding: 20px;"
-                            "  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);"
-                            "  border: 1px solid rgba(0,0,0,0.1);"                                  
-                            "}"
- 
-"#app-list { "
-"background: transparent; "
-"border-radius: 14px; "
-"padding: 6px; "
-"} "
-"#app-list button { "
-"all: unset; "
-"padding: 10px 12px; "
-"border-radius: 10px; "
-"background: rgba(255,255,255,0.06); "
-"transition: background 120ms ease, transform 120ms ease; "
-"min-height: 38px; "
-"color: inherit; "
-"} "
-"#app-list button:hover { "
-"background: rgba(255,255,255,0.12); "
-"} "
-"#app-list button:active { "
-"background: rgba(255,255,255,0.18); "
-"transform: scale(0.99); "
-"} "
-"#app-list button:focus-visible { "
-"outline: 2px solid rgba(120,160,255,0.8); "
-"outline-offset: 2px; "
-"} "
-"#app-list row:selected button { "
-"background: rgba(120,160,255,0.22); "
-"} "
-"#app-list image { "
-"margin-right: 8px; "
-"} "
-"#app-list label { "
-"font-size: 14px; "
-"} "
-"#default-button {"
-"min-width: 100px;"
-"min-height: 100px;"
-"-gtk-icon-size: 60px;"
-"}"
-);
-
+    gtk_css_provider_load_from_path(provider, "./style/applauncher.css");
 
     GdkDisplay *display = gdk_display_get_default(); 
     gtk_style_context_add_provider_for_display(display, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_USER);

@@ -4,12 +4,7 @@
 
 void show_settings_app () {
     GtkCssProvider *provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_string(provider, "#wallpaper_mini {"
-    "min-width: 200px;"
-    "min-height: 90px;"
-    "border-radius: 10px;"
-     "}");
-
+    gtk_css_provider_load_from_path(provider, "./style/settings.css");
 
     gtk_style_context_add_provider_for_display(
         gdk_display_get_default(),

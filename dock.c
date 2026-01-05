@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include "event.h"
 #include "applauncher.h"
-#include "glib.h"
-#include "gtk/gtkcssprovider.h"
 
 static gboolean update_battery(GtkLabel *label) {
     int percent = read_battery();
@@ -21,11 +19,12 @@ static gboolean update_time(GtkLabel *label) {
 
     read_time(res);
     gtk_label_set_text(label, res);
+    return TRUE;
 }
 
 void show_dock_window (GtkApplication *app) {
     GtkCssProvider *provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_string(provider, "#time {padding-top: 18px;  }");
+    gtk_css_provider_load_from_path(provider, "./style/dock.css");
 
     GdkDisplay *display = gdk_display_get_default(); 
     gtk_style_context_add_provider_for_display(display, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
@@ -62,6 +61,7 @@ void show_dock_window (GtkApplication *app) {
     char c_time[20]; 
     read_time(c_time);
     GtkWidget *time_label = gtk_label_new(c_time);
+    gtk_widget_set_valign(time_label, GTK_ALIGN_CENTER);
     gtk_widget_set_name(time_label, "time");
 
     gtk_box_append(GTK_BOX (right_container), time_label);
