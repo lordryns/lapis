@@ -1,14 +1,15 @@
 #launcher {
     border-radius: 20px;
     padding: 20px;
-    /* Plasma 6 uses a clean, slightly tinted light background */
+    /* Darker, more contrasted background */
     background: linear-gradient(to bottom, 
-                #f8f9fb 0%, 
-                #f0f2f7 100%);
-    /* Elevated shadow for depth */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15),
-                0 2px 6px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(200, 210, 220, 0.6);
+                #ffffff 0%, 
+                #e8ecf2 100%);
+    /* Much stronger shadows for depth */
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25),
+                0 4px 12px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(160, 180, 200, 0.8);
 }
 
 #app-list {
@@ -20,56 +21,63 @@
     padding: 14px 10px;
     margin: 4px;
     border-radius: 14px;
-    /* Plasma uses subtle, clean button backgrounds */
+    /* Stronger button background with more contrast */
     background: linear-gradient(to bottom,
-                rgba(255, 255, 255, 0.7) 0%,
-                rgba(245, 248, 252, 0.6) 100%);
+                #ffffff 0%,
+                #f0f4f8 100%);
     min-height: 76px;
     min-width: 76px;
     font-size: 12px;
-    font-weight: 500;
-    color: #2a2e32;
-    border: 1px solid rgba(220, 228, 238, 0.8);
-    /* Plasma's smooth animations */
+    font-weight: 600;
+    color: #1a1d21;
+    border: 1px solid rgba(180, 195, 210, 0.9);
+    /* Visible shadow on buttons */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12),
+                0 1px 2px rgba(0, 0, 0, 0.08);
     transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 #app-list button:hover {
     background: linear-gradient(to bottom,
-                rgba(255, 255, 255, 0.95) 0%,
-                rgba(238, 244, 251, 0.85) 100%);
-    border: 1px solid rgba(66, 133, 244, 0.4);
-    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.15),
-                0 1px 4px rgba(0, 0, 0, 0.08);
-    /* Subtle lift effect */
+                #ffffff 0%,
+                #e3edff 100%);
+    /* Strong blue border on hover */
+    border: 1px solid rgba(66, 133, 244, 0.7);
+    /* Much more prominent hover shadow */
+    box-shadow: 0 6px 16px rgba(66, 133, 244, 0.28),
+                0 2px 8px rgba(0, 0, 0, 0.15);
     margin-top: 2px;
     margin-bottom: 6px;
 }
 
 #app-list button:active {
+    /* Vibrant blue active state */
     background: linear-gradient(to bottom,
-                rgba(66, 133, 244, 0.18) 0%,
-                rgba(100, 155, 255, 0.12) 100%);
-    border: 1px solid rgba(66, 133, 244, 0.5);
-    box-shadow: 0 2px 6px rgba(66, 133, 244, 0.2);
+                rgba(66, 133, 244, 0.35) 0%,
+                rgba(88, 150, 255, 0.25) 100%);
+    border: 1px solid rgba(66, 133, 244, 0.8);
+    box-shadow: 0 3px 10px rgba(66, 133, 244, 0.35),
+                inset 0 1px 3px rgba(0, 0, 0, 0.1);
     margin-top: 4px;
     margin-bottom: 4px;
 }
 
 #app-list button:focus {
-    outline: 2px solid rgba(66, 133, 244, 0.5);
+    outline: 3px solid rgba(66, 133, 244, 0.6);
     outline-offset: 3px;
 }
 
 #app-list image {
     margin-bottom: 8px;
     -gtk-icon-size: 40px;
-    /* Icon shadow for depth - Plasma style */
-    -gtk-icon-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Stronger icon shadow */
+    -gtk-icon-shadow: 0 3px 6px rgba(0, 0, 0, 0.18);
 }
 
 #app-list button:hover image {
-    -gtk-icon-shadow: 0 3px 8px rgba(66, 133, 244, 0.25);
+    /* Dramatic blue glow on hover */
+    -gtk-icon-shadow: 0 4px 12px rgba(66, 133, 244, 0.4),
+                      0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 #default-button {
@@ -77,38 +85,45 @@
     min-height: 80px;
     border-radius: 14px;
     -gtk-icon-size: 42px;
-    /* Plasma accent color - that signature blue */
+    /* Much more visible accent button */
     background: linear-gradient(to bottom,
-                rgba(66, 133, 244, 0.22) 0%,
-                rgba(88, 150, 255, 0.18) 100%);
-    border: 1px solid rgba(66, 133, 244, 0.5);
-    font-weight: 600;
-    color: #1e1e1e;
-    box-shadow: 0 3px 10px rgba(66, 133, 244, 0.2);
+                rgba(66, 133, 244, 0.4) 0%,
+                rgba(88, 150, 255, 0.3) 100%);
+    border: 2px solid rgba(66, 133, 244, 0.8);
+    font-weight: 700;
+    color: #0d0f12;
+    box-shadow: 0 4px 14px rgba(66, 133, 244, 0.35),
+                0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 #app-list row:selected {
+    /* Strong selection state */
     background: linear-gradient(to bottom,
-                rgba(66, 133, 244, 0.25) 0%,
-                rgba(88, 150, 255, 0.20) 100%);
+                rgba(66, 133, 244, 0.4) 0%,
+                rgba(88, 150, 255, 0.32) 100%);
     border-radius: 14px;
-    border: 1px solid rgba(66, 133, 244, 0.4);
+    border: 2px solid rgba(66, 133, 244, 0.7);
+    box-shadow: 0 2px 8px rgba(66, 133, 244, 0.25);
 }
 
-/* Search box if you have one - Plasma style */
+/* Search box with more contrast */
 #search-entry {
     border-radius: 16px;
     padding: 12px 16px;
     background: linear-gradient(to bottom,
-                rgba(255, 255, 255, 0.9) 0%,
-                rgba(248, 250, 253, 0.8) 100%);
-    border: 1px solid rgba(200, 210, 220, 0.6);
+                #ffffff 0%,
+                #f5f7fa 100%);
+    border: 2px solid rgba(180, 195, 210, 0.8);
     font-size: 14px;
+    font-weight: 500;
+    color: #1a1d21;
     margin-bottom: 12px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08),
+                0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 #search-entry:focus {
-    border: 1px solid rgba(66, 133, 244, 0.6);
-    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.12);
+    border: 2px solid rgba(66, 133, 244, 0.8);
+    box-shadow: 0 0 0 4px rgba(66, 133, 244, 0.18),
+                inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }

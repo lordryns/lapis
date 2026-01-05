@@ -1,7 +1,7 @@
 #include <gtk/gtk.h>
 #include <gtk-layer-shell/gtk-layer-shell.h>
 #include <stdio.h>
-
+#include "settings.h"
 
 void show_background_manager (GtkApplication *app) {
     GtkCssProvider *provider = gtk_css_provider_new();
@@ -46,6 +46,7 @@ void show_background_manager (GtkApplication *app) {
     GtkWidget *background_picture = gtk_picture_new_for_filename("./wallpapers/2.jpg");
     gtk_picture_set_content_fit(GTK_PICTURE(background_picture),
                             GTK_CONTENT_FIT_COVER);
+    shell_settings.background_widget = background_picture;
 
     gtk_widget_set_hexpand(background_picture, TRUE);
     gtk_widget_set_vexpand(background_picture, TRUE);
