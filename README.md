@@ -17,12 +17,17 @@ Lapis relies on a few dependencies to be able to run
 - wayland 
 - a window manager
 
+
 > [!NOTE]
-> Lapis has only been tested on Hyprland and Sway and so behaviour might not be optimal on your window manager of choice 
+> It is advised to turn off any other shell that might be running before turning on the lapis shell on your machine as they may not coexist properly.
 
 
 
-It is advised to turn off any other shell that might be running before turning on the lapis shell on your machine as they may not coexist properly.
+### Tested WMs 
+Lapis has been tested on the following window managers 
+- Hyprland
+- Sway
+- Labwc
 
 
 ### Thanks 
