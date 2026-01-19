@@ -5,6 +5,8 @@
 
 struct shell_settings {
     GtkWidget *background_widget; 
+    bool show_dock; 
+    GtkWidget *dock_widget;
 };
 
 extern struct shell_settings shell_settings;

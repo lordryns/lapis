@@ -7,7 +7,7 @@
 
 static void on_activate (GtkApplication *app) {
     // show_app_launcher(app); 
-    show_dock_window(app);
+    show_dock_window();
     show_background_manager(app); 
 }
 

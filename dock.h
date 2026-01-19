@@ -3,7 +3,7 @@
 
 #include <gtk/gtk.h>
 
-void show_dock_window (GtkApplication *app);
+void show_dock_window ();
 
 #endif // !LAPIS_DOCK_H
 

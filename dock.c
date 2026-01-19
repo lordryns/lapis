@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "event.h"
 #include "applauncher.h"
+#include "settings.h"
 
 static gboolean update_battery(GtkLabel *label) {
     int percent = read_battery();
@@ -22,7 +23,7 @@ static gboolean update_time(GtkLabel *label) {
     return TRUE;
 }
 
-void show_dock_window (GtkApplication *app) {
+void show_dock_window () {
     GtkCssProvider *provider = gtk_css_provider_new();
     gtk_css_provider_load_from_path(provider, "./style/dock.css");
 
@@ -37,7 +38,7 @@ void show_dock_window (GtkApplication *app) {
 
     int window_width = geometry.width;
     int window_height = 40;
-    GtkWidget *window = gtk_application_window_new(app); 
+    GtkWidget *window = gtk_window_new(); 
     gtk_window_set_default_size(GTK_WINDOW (window), window_width, window_height);
     gtk_layer_init_for_window(GTK_WINDOW (window));
     gtk_layer_set_anchor(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_BOTTOM, TRUE);
@@ -85,6 +86,7 @@ void show_dock_window (GtkApplication *app) {
         gtk_box_append(GTK_BOX (right_container), notification_btn);
 
 
+    shell_settings.dock_widget = window;
 
     gtk_window_set_child(GTK_WINDOW (window), container);
     gtk_window_present(GTK_WINDOW (window));

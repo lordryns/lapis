@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "settings.h"
+#include "dock.h"
 
 struct shell_settings shell_settings = {0};
 
@@ -10,6 +11,14 @@ void change_wallpaper_to_required(GtkButton *picture_button, gpointer user_data)
     gtk_picture_set_filename(GTK_PICTURE (shell_settings.background_widget), wallpaper_name);
 }
 
+void toggle_show_dock_checkbox(GtkCheckButton *toggle, gpointer user_data) {
+    shell_settings.show_dock = !gtk_check_button_get_active(toggle); 
+    if (shell_settings.show_dock) {
+        gtk_window_destroy(GTK_WINDOW (shell_settings.dock_widget));
+    } else {
+        show_dock_window();
+    }
+}
 
 void show_settings_app () {
     GtkCssProvider *provider = gtk_css_provider_new();
@@ -37,7 +46,7 @@ void show_settings_app () {
     GtkWidget *change_wallpaper_tab = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 7);
     gtk_box_append(GTK_BOX (wallpaper_tab), change_wallpaper_tab);
 
-    for (int i=1; i < 3; i++) {
+    for (int i=1; i < 4; i++) {
         char wallpaper_name[30];
         sprintf(wallpaper_name, "./wallpapers/%d.jpg", i);
    
@@ -47,11 +56,22 @@ void show_settings_app () {
         
         GtkWidget *wallpaper_btn = gtk_button_new(); 
         gtk_button_set_child (GTK_BUTTON (wallpaper_btn), wallpaper_mini);
+        gtk_widget_set_halign(wallpaper_btn, GTK_ALIGN_START);
         gtk_box_append(GTK_BOX(change_wallpaper_tab), wallpaper_btn);
         g_signal_connect(wallpaper_btn, "clicked", G_CALLBACK (change_wallpaper_to_required), (gpointer) g_strdup(wallpaper_name));
     }
 
     gtk_notebook_append_page(GTK_NOTEBOOK (parent_container), wallpaper_tab, wallpaper_label);
+
+    GtkWidget *dock_label = gtk_label_new("Dock");
+    GtkWidget *dock_tab = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+
+    GtkWidget *show_dock_checkbutton = gtk_check_button_new_with_label("Show Dock");
+    gtk_check_button_set_active(GTK_CHECK_BUTTON(show_dock_checkbutton), TRUE);
+    g_signal_connect(show_dock_checkbutton, "toggled", G_CALLBACK (toggle_show_dock_checkbox), NULL);
+    gtk_box_append(GTK_BOX (dock_tab), show_dock_checkbutton);
+
+    gtk_notebook_append_page(GTK_NOTEBOOK (parent_container), dock_tab, dock_label);
 
     gtk_window_set_child(GTK_WINDOW (window), parent_container);
     gtk_window_present(GTK_WINDOW (window));
