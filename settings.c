@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include <gtk-layer-shell/gtk-layer-shell.h>
 #include "settings.h"
 #include "dock.h"
 
@@ -17,6 +18,18 @@ void toggle_show_dock_checkbox(GtkCheckButton *toggle, gpointer user_data) {
         gtk_window_destroy(GTK_WINDOW (shell_settings.dock_widget));
     } else {
         show_dock_window();
+    }
+}
+
+
+void toggle_anchor_dock_checkbox(GtkCheckButton *toggle, gpointer user_data) {
+    shell_settings.show_dock = !gtk_check_button_get_active(toggle); 
+    if (shell_settings.show_dock) {
+        gtk_layer_set_anchor(GTK_WINDOW (shell_settings.dock_widget),GTK_LAYER_SHELL_EDGE_BOTTOM, FALSE);
+        gtk_layer_set_anchor(GTK_WINDOW (shell_settings.dock_widget),GTK_LAYER_SHELL_EDGE_TOP, TRUE);
+    } else {
+        gtk_layer_set_anchor(GTK_WINDOW (shell_settings.dock_widget),GTK_LAYER_SHELL_EDGE_BOTTOM, TRUE);
+        gtk_layer_set_anchor(GTK_WINDOW (shell_settings.dock_widget),GTK_LAYER_SHELL_EDGE_TOP, FALSE);
     }
 }
 
@@ -70,6 +83,14 @@ void show_settings_app () {
     gtk_check_button_set_active(GTK_CHECK_BUTTON(show_dock_checkbutton), TRUE);
     g_signal_connect(show_dock_checkbutton, "toggled", G_CALLBACK (toggle_show_dock_checkbox), NULL);
     gtk_box_append(GTK_BOX (dock_tab), show_dock_checkbutton);
+
+
+    GtkWidget *anchor_dock_checkbutton = gtk_check_button_new_with_label("Anchor dock to bottom");
+    gtk_check_button_set_active(GTK_CHECK_BUTTON(anchor_dock_checkbutton), TRUE);
+    g_signal_connect(anchor_dock_checkbutton, "toggled", G_CALLBACK (toggle_anchor_dock_checkbox), NULL);
+    gtk_box_append(GTK_BOX (dock_tab), anchor_dock_checkbutton);
+
+
 
     gtk_notebook_append_page(GTK_NOTEBOOK (parent_container), dock_tab, dock_label);
 
