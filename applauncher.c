@@ -70,12 +70,7 @@ void show_app_launcher () {
     
     gtk_layer_set_keyboard_mode(GTK_WINDOW (window), GTK_LAYER_SHELL_KEYBOARD_MODE_ON_DEMAND);
     
-    gtk_layer_set_layer(GTK_WINDOW (window), GTK_LAYER_SHELL_LAYER_TOP);
-    gtk_layer_set_anchor(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_BOTTOM, TRUE);
-    gtk_layer_set_anchor(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, TRUE);
-    gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_BOTTOM, 10);
-    gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, 10);
-    gtk_widget_set_name(window, "launcher");
+   gtk_widget_set_name(window, "launcher");
 
     GtkWidget *container = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
