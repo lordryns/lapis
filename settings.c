@@ -33,6 +33,23 @@ void toggle_anchor_dock_checkbox(GtkCheckButton *toggle, gpointer user_data) {
     }
 }
 
+
+void toggle_expand_launcher_checkbox(GtkCheckButton *toggle, gpointer user_data) {
+
+    if (gtk_check_button_get_active(toggle)) {
+        shell_settings.launcher_width = shell_settings.monitor_width; 
+        shell_settings.launcher_height = shell_settings.monitor_height; 
+
+        gtk_window_set_default_size(GTK_WINDOW (shell_settings.launcher_widget), 
+                               shell_settings.monitor_width, shell_settings.monitor_height); 
+    } else {
+        gtk_window_set_default_size(GTK_WINDOW (shell_settings.launcher_widget), 700, 500); 
+        shell_settings.launcher_width = 700; 
+        shell_settings.launcher_height = 500; 
+    }
+
+   }
+
 void show_settings_app () {
     GtkCssProvider *provider = gtk_css_provider_new();
     gtk_css_provider_load_from_path(provider, "./style/settings.css");
@@ -46,10 +63,12 @@ void show_settings_app () {
     GtkWidget *window = gtk_window_new(); 
     gtk_window_set_title(GTK_WINDOW (window), "Settings");  
     gtk_window_set_default_size(GTK_WINDOW (window), 700, 600);
+    gtk_window_set_resizable(GTK_WINDOW (window), FALSE);
 
 
     GtkWidget *parent_container = gtk_notebook_new();
 
+    // start of the wallpaper tab and section
     GtkWidget *wallpaper_label = gtk_label_new("Wallpaper");
     GtkWidget *wallpaper_tab = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
@@ -76,6 +95,7 @@ void show_settings_app () {
 
     gtk_notebook_append_page(GTK_NOTEBOOK (parent_container), wallpaper_tab, wallpaper_label);
 
+    // the dock tab section
     GtkWidget *dock_label = gtk_label_new("Dock");
     GtkWidget *dock_tab = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
@@ -91,8 +111,22 @@ void show_settings_app () {
     gtk_box_append(GTK_BOX (dock_tab), anchor_dock_checkbutton);
 
 
-
     gtk_notebook_append_page(GTK_NOTEBOOK (parent_container), dock_tab, dock_label);
+
+
+    // the applauncher section
+    GtkWidget *applauncher_label = gtk_label_new("App Launcher");
+    GtkWidget *applauncher_tab = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+
+    GtkWidget *expand_applauncher_checkbutton = gtk_check_button_new_with_label("Expand Launcher");
+    g_signal_connect(expand_applauncher_checkbutton, "toggled", G_CALLBACK (toggle_expand_launcher_checkbox), NULL);
+    gtk_box_append(GTK_BOX (applauncher_tab), expand_applauncher_checkbutton);
+
+
+
+
+
+    gtk_notebook_append_page(GTK_NOTEBOOK (parent_container), applauncher_tab, applauncher_label);
 
     gtk_window_set_child(GTK_WINDOW (window), parent_container);
     gtk_window_present(GTK_WINDOW (window));
